@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+
+{% block title %}SecureShare | Secure File Sharing{% endblock %}
+
+{% block content %}
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold text-primary" href="/">
+            <i class="bi bi-shield-lock-fill"></i>
+            SecureShare
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Features</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#security">Security</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#technology">Technology</a>
+                </li>
+
+                <li class="nav-item ms-lg-3">
+
+                    <a href="/login" class="btn btn-outline-primary">
+
+                        Login
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item ms-lg-2">
+
+                    <a href="/register" class="btn btn-primary">
+
+                        Get Started
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <span class="badge bg-primary-soft text-primary mb-3">
+
+                    🔒 Military Grade AES Encryption
+
+                </span>
+
+                <h1 class="display-4 fw-bold mb-4">
+
+                    Store & Share Files
+
+                    <span class="text-primary">
+
+                        Securely
+
+                    </span>
+
+                </h1>
+
+                <p class="lead text-muted mb-4">
+
+                    SecureShare keeps your files protected using AES encryption,
+                    secure authentication, and private cloud storage.
+
+                </p>
+
+                <a href="/register" class="btn btn-primary btn-lg me-3">
+
+                    Get Started
+
+                </a>
+
+                <a href="/login" class="btn btn-outline-primary btn-lg">
+
+                    Login
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+
+                <i class="bi bi-cloud-lock-fill text-primary"
+                   style="font-size:220px;"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= FEATURES ================= -->
+
+<section id="features" class="section bg-white">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                Why Choose SecureShare?
+
+            </h2>
+
+            <p class="text-muted">
+
+                Powerful features designed to keep your files safe and accessible.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <div class="card h-100 text-center p-4">
+
+                    <div class="mb-3">
+
+                        <i class="bi bi-shield-lock-fill text-primary display-4"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold">
+
+                        AES Encryption
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Every uploaded file is encrypted using the Advanced Encryption Standard (AES) to ensure maximum protection.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card h-100 text-center p-4">
+
+                    <div class="mb-3">
+
+                        <i class="bi bi-cloud-arrow-up-fill text-success display-4"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold">
+
+                        Secure Uploads
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Upload documents, images, PDFs, and archives securely with an easy-to-use interface.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card h-100 text-center p-4">
+
+                    <div class="mb-3">
+
+                        <i class="bi bi-share-fill text-warning display-4"></i>
+
+                    </div>
+
+                    <h4 class="fw-bold">
+
+                        Easy Sharing
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Generate secure share links so you can share encrypted files with others safely.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= SECURITY ================= -->
+
+<section id="security" class="section">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6 text-center mb-5 mb-lg-0">
+
+                <i class="bi bi-lock-fill text-primary"
+                   style="font-size:180px;"></i>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <h2 class="fw-bold mb-4">
+
+                    Your Privacy Comes First
+
+                </h2>
+
+                <p class="text-muted">
+
+                    Every file uploaded to SecureShare is encrypted using
+                    Advanced Encryption Standard (AES). Your original files
+                    remain protected from unauthorized access.
+
+                </p>
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+                        ✅ AES Encryption
+                    </li>
+
+                    <li class="list-group-item">
+                        ✅ Secure User Authentication
+                    </li>
+
+                    <li class="list-group-item">
+                        ✅ Protected File Downloads
+                    </li>
+
+                    <li class="list-group-item">
+                        ✅ Private Cloud Storage
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= TECHNOLOGY ================= -->
+
+<section id="technology" class="section bg-white">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                Built With Modern Technologies
+
+            </h2>
+
+            <p class="text-muted">
+
+                SecureShare combines powerful open-source technologies to deliver
+                speed, security, and reliability.
+
+            </p>
+
+        </div>
+
+        <div class="row text-center g-4">
+
+            <div class="col-md-3">
+
+                <div class="card p-4 h-100">
+
+                    <i class="bi bi-filetype-py text-primary display-4"></i>
+
+                    <h5 class="mt-3">Python</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card p-4 h-100">
+
+                    <i class="bi bi-bootstrap-fill text-purple display-4"></i>
+
+                    <h5 class="mt-3">Bootstrap 5</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card p-4 h-100">
+
+                    <i class="bi bi-server text-success display-4"></i>
+
+                    <h5 class="mt-3">Flask</h5>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card p-4 h-100">
+
+                    <i class="bi bi-database-lock text-danger display-4"></i>
+
+                    <h5 class="mt-3">SQLite + AES</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section class="section text-center">
+
+    <div class="container">
+
+        <div class="card p-5 bg-primary text-white">
+
+            <h2 class="fw-bold">
+
+                Ready to Secure Your Files?
+
+            </h2>
+
+            <p class="mt-3">
+
+                Create your free SecureShare account and start uploading
+                encrypted files today.
+
+            </p>
+
+            <div class="mt-4">
+
+                <a href="/register"
+                   class="btn btn-light btn-lg">
+
+                    Create Free Account
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="bg-dark text-white py-4">
+
+    <div class="container text-center">
+
+        <h4 class="fw-bold">
+
+            <i class="bi bi-shield-lock-fill"></i>
+
+            SecureShare
+
+        </h4>
+
+        <p class="mb-2">
+
+            Secure File Sharing Platform using Flask & AES Encryption
+
+        </p>
+
+        <small class="text-secondary">
+
+            © 2026 SecureShare. All Rights Reserved.
+
+        </small>
+
+    </div>
+
+</footer>
+
+{% endblock %}

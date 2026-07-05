@@ -1,0 +1,41 @@
+<div class="dashboard-header">
+
+    <div class="header-search">
+
+        <i class="bi bi-search"></i>
+
+        <input
+            type="text"
+            placeholder="Search files...">
+
+    </div>
+
+    <div class="header-right">
+
+        <button class="notification-btn">
+
+            <i class="bi bi-bell"></i>
+
+        </button>
+
+        <div class="user-info">
+
+            <div class="user-avatar">
+
+                {{ current_user.username[0]|upper }}
+
+            </div>
+
+            <div>
+
+                <strong>{{ current_user.username }}</strong><br>
+
+                <small>Secure User</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

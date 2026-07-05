@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}Register | SecureShare{% endblock %}
+
+{% block content %}
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold text-primary" href="/">
+
+<i class="bi bi-shield-lock-fill"></i>
+
+SecureShare
+
+</a>
+
+<button
+class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#nav">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="nav">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link" href="/">Home</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="/login">
+
+Login
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ================= REGISTER ================= -->
+
+<div class="container py-5">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-6">
+
+<div class="card p-5">
+
+<div class="text-center mb-4">
+
+<i class="bi bi-person-plus-fill display-4 text-primary"></i>
+
+<h2 class="fw-bold mt-3">
+
+Create Your Account
+
+</h2>
+
+<p class="text-muted">
+
+Join SecureShare and protect your files with AES encryption.
+
+</p>
+
+</div>
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Username
+
+</label>
+
+<input
+type="text"
+name="username"
+class="form-control"
+placeholder="Enter username"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Email
+
+</label>
+
+<input
+type="email"
+name="email"
+class="form-control"
+placeholder="Enter email"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Password
+
+</label>
+
+<div class="input-group">
+
+<input
+type="password"
+id="password"
+name="password"
+class="form-control"
+placeholder="Enter password"
+onkeyup="checkStrength();checkMatch();"
+required>
+
+<button
+type="button"
+class="btn btn-outline-secondary"
+onclick="togglePassword()">
+
+<i class="bi bi-eye"></i>
+
+</button>
+
+</div>
+
+<small id="strength"></small>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+
+Confirm Password
+
+</label>
+
+<input
+type="password"
+id="confirmPassword"
+class="form-control"
+placeholder="Confirm password"
+onkeyup="checkMatch()"
+required>
+
+<small id="matchMessage"></small>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-primary w-100">
+
+<i class="bi bi-person-check-fill"></i>
+
+Create Account
+
+</button>
+
+</form>
+
+<hr>
+
+<p class="text-center mb-0">
+
+Already have an account?
+
+<a href="/login">
+
+Login
+
+</a>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+const password=document.getElementById("password");
+
+const icon=document.querySelector(".input-group i");
+
+if(password.type==="password"){
+
+password.type="text";
+
+icon.classList.replace("bi-eye","bi-eye-slash");
+
+}else{
+
+password.type="password";
+
+icon.classList.replace("bi-eye-slash","bi-eye");
+
+}
+
+}
+
+function checkStrength(){
+
+const password=document.getElementById("password").value;
+
+const strength=document.getElementById("strength");
+
+if(password.length<6){
+
+strength.innerHTML="Weak Password";
+
+strength.style.color="red";
+
+}
+else if(password.length<10){
+
+strength.innerHTML="Medium Password";
+
+strength.style.color="orange";
+
+}
+else{
+
+strength.innerHTML="Strong Password";
+
+strength.style.color="green";
+
+}
+
+}
+
+function checkMatch(){
+
+const pass=document.getElementById("password").value;
+
+const confirm=document.getElementById("confirmPassword").value;
+
+const msg=document.getElementById("matchMessage");
+
+if(confirm===""){
+
+msg.innerHTML="";
+return;
+
+}
+
+if(pass===confirm){
+
+msg.innerHTML="✓ Passwords Match";
+msg.style.color="green";
+
+}else{
+
+msg.innerHTML="✗ Passwords Do Not Match";
+msg.style.color="red";
+
+}
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,799 @@
+{% extends "base.html" %}
+
+{% block title %}My Files | SecureShare{% endblock %}
+
+{% block content %}
+
+{% include "components/sidebar.html" %}
+
+<div class="dashboard-content">
+
+{% include "components/dashboard_header.html" %}
+
+<div class="container-fluid">
+
+<!-- ===========================
+PAGE HEADER
+=========================== -->
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
+    <div>
+
+        <h2 class="fw-bold">
+
+            <i class="bi bi-folder2-open text-primary"></i>
+
+            My Files
+
+        </h2>
+
+        <p class="text-muted">
+
+            Manage, preview and securely share your encrypted files.
+
+        </p>
+
+    </div>
+
+    <a href="/upload"
+       class="btn btn-primary">
+
+        <i class="bi bi-cloud-upload-fill"></i>
+
+        Upload File
+
+    </a>
+
+</div>
+
+<!-- ===========================
+SEARCH + SORT
+=========================== -->
+
+<div class="row mb-4 g-3">
+
+<div class="col-lg-8">
+
+<input
+type="text"
+id="searchInput"
+class="form-control"
+placeholder="Search your files...">
+
+</div>
+
+<div class="col-lg-4">
+
+<select
+id="sortFiles"
+class="form-select">
+
+<option value="date">
+
+Newest First
+
+</option>
+
+<option value="name">
+
+Name
+
+</option>
+
+<option value="downloads">
+
+Downloads
+
+</option>
+
+<option value="size">
+
+File Size
+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<!-- ===========================
+FILES TABLE
+=========================== -->
+
+{% if files %}
+
+<div class="card files-card shadow-sm">
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table
+class="table table-hover align-middle"
+id="filesTable">
+
+<thead>
+
+<tr>
+
+<th width="80">
+
+Type
+
+</th>
+
+<th>
+
+Filename
+
+</th>
+
+<th>
+
+Size
+
+</th>
+
+<th>
+
+Uploaded
+
+</th>
+
+<th>
+
+Downloads
+
+</th>
+
+<th>
+
+Status
+
+</th>
+
+<th width="280">
+
+Actions
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for file in files %}
+
+{% set ext=file.filename.split('.')[-1]|lower %}
+
+<tr>
+
+<!-- File Icon -->
+
+<td>
+
+{% if ext=="pdf" %}
+
+<i class="bi bi-file-earmark-pdf-fill text-danger fs-2"></i>
+
+{% elif ext in ["png","jpg","jpeg","gif","webp"] %}
+
+<i class="bi bi-file-earmark-image-fill text-success fs-2"></i>
+
+{% elif ext in ["doc","docx"] %}
+
+<i class="bi bi-file-earmark-word-fill text-primary fs-2"></i>
+
+{% elif ext in ["xls","xlsx"] %}
+
+<i class="bi bi-file-earmark-excel-fill text-success fs-2"></i>
+
+{% elif ext in ["ppt","pptx"] %}
+
+<i class="bi bi-file-earmark-slides-fill text-warning fs-2"></i>
+
+{% elif ext in ["zip","rar","7z"] %}
+
+<i class="bi bi-file-earmark-zip-fill text-warning fs-2"></i>
+
+{% elif ext=="txt" %}
+
+<i class="bi bi-file-earmark-text-fill text-secondary fs-2"></i>
+
+{% else %}
+
+<i class="bi bi-file-earmark-fill text-primary fs-2"></i>
+
+{% endif %}
+
+</td>
+
+<!-- Filename -->
+
+<td class="filename">
+
+<div class="fw-semibold">
+
+{{ file.filename }}
+
+</div>
+
+<small class="text-muted">
+
+Encrypted File
+
+</small>
+
+</td>
+
+<!-- Size -->
+
+<td>
+
+{{ "%.2f"|format(file.filesize) }} KB
+
+</td>
+
+<!-- Upload Date -->
+
+<td>
+
+{{ file.upload_date.strftime("%d %b %Y") }}
+
+</td>
+
+<!-- Downloads -->
+
+<td>
+
+<span class="badge bg-primary">
+
+{{ file.downloads }}
+
+</span>
+
+</td>
+
+<!-- Status -->
+
+<td>
+
+<span class="badge bg-success">
+
+AES-256
+
+</span>
+
+{% if file.favorite %}
+
+<br>
+
+<span class="badge bg-warning text-dark mt-2">
+
+<i class="bi bi-star-fill"></i>
+
+Favorite
+
+</span>
+
+{% endif %}
+
+</td>
+<!-- ===========================
+ACTIONS
+=========================== -->
+
+<td>
+
+<div class="btn-group" role="group">
+
+<!-- Preview -->
+
+<button
+type="button"
+class="btn btn-info btn-sm"
+title="Preview"
+onclick="previewFile({{ file.id }})">
+
+<i class="bi bi-eye-fill"></i>
+
+</button>
+
+<!-- Download -->
+
+<a href="/download/{{ file.id }}"
+class="btn btn-primary btn-sm"
+title="Download">
+
+<i class="bi bi-download"></i>
+
+</a>
+
+<!-- Favorite -->
+
+<a href="/favorite/{{ file.id }}"
+class="btn btn-warning btn-sm"
+title="Favorite">
+
+{% if file.favorite %}
+
+<i class="bi bi-star-fill"></i>
+
+{% else %}
+
+<i class="bi bi-star"></i>
+
+{% endif %}
+
+</a>
+
+<!-- Share -->
+
+<button
+type="button"
+class="btn btn-success btn-sm"
+title="Share"
+onclick="openShareModal({{ file.id }})">
+
+<i class="bi bi-share-fill"></i>
+
+</button>
+
+<!-- Delete -->
+
+<button
+type="button"
+class="btn btn-danger btn-sm"
+title="Delete"
+onclick="confirmDelete({{ file.id }}, '{{ file.filename|e }}')">
+
+<i class="bi bi-trash-fill"></i>
+
+</button>
+
+</div>
+
+{% if file.shared %}
+
+<div class="mt-3">
+
+<label class="form-label fw-semibold">
+
+Share Link
+
+</label>
+
+<div class="input-group">
+
+<input
+type="text"
+class="form-control"
+id="share{{ file.id }}"
+readonly
+value="{{ request.host_url }}shared/{{ file.share_token }}">
+
+<button
+class="btn btn-outline-primary"
+type="button"
+onclick="copyLink('share{{ file.id }}')">
+
+<i class="bi bi-clipboard"></i>
+
+</button>
+
+</div>
+
+{% if file.expiry_date %}
+
+<div class="mt-2">
+
+<span class="badge bg-info">
+
+<i class="bi bi-clock-history"></i>
+
+Expires
+
+{{ file.expiry_date.strftime("%d %b %Y") }}
+
+</span>
+
+</div>
+
+{% else %}
+
+<div class="mt-2">
+
+<span class="badge bg-success">
+
+<i class="bi bi-infinity"></i>
+
+Never Expires
+
+</span>
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+{% else %}
+
+<!-- ===========================
+EMPTY STATE
+=========================== -->
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center py-5">
+
+<i class="bi bi-folder-x display-1 text-secondary"></i>
+
+<h3 class="mt-4">
+
+No Files Uploaded
+
+</h3>
+
+<p class="text-muted">
+
+Upload your first encrypted file to start using SecureShare.
+
+</p>
+
+<a href="/upload"
+class="btn btn-primary">
+
+<i class="bi bi-cloud-upload-fill"></i>
+
+Upload Your First File
+
+</a>
+
+</div>
+
+</div>
+
+{% endif %}
+<!-- ==========================================
+SHARE FILE MODAL
+========================================== -->
+
+<div class="modal fade"
+     id="shareModal"
+     tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title">
+
+<i class="bi bi-share-fill text-success"></i>
+
+Share File
+
+</h5>
+
+<button
+type="button"
+class="btn-close"
+data-bs-dismiss="modal">
+
+</button>
+
+</div>
+
+<form
+id="shareForm"
+method="GET">
+
+<div class="modal-body">
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Link Expiry
+
+</label>
+
+<select
+name="days"
+class="form-select">
+
+<option value="1">
+
+1 Day
+
+</option>
+
+<option value="7" selected>
+
+7 Days
+
+</option>
+
+<option value="30">
+
+30 Days
+
+</option>
+
+<option value="0">
+
+Never
+
+</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Password (Optional)
+
+</label>
+
+<input
+type="password"
+name="password"
+class="form-control"
+placeholder="Protect this link">
+
+<small class="text-muted">
+
+Leave empty if no password is required.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+
+<button
+type="button"
+class="btn btn-secondary"
+data-bs-dismiss="modal">
+
+Cancel
+
+</button>
+
+<button
+type="submit"
+class="btn btn-success">
+
+<i class="bi bi-share-fill"></i>
+
+Generate Link
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ==========================================
+DELETE MODAL
+========================================== -->
+
+<div class="modal fade"
+     id="deleteModal"
+     tabindex="-1">
+
+<div class="modal-dialog modal-dialog-centered">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h5 class="modal-title text-danger">
+
+<i class="bi bi-trash-fill"></i>
+
+Delete File
+
+</h5>
+
+<button
+class="btn-close"
+data-bs-dismiss="modal">
+
+</button>
+
+</div>
+
+<div class="modal-body text-center">
+
+<i class="bi bi-exclamation-triangle-fill
+text-warning display-4"></i>
+
+<h4 class="mt-3">
+
+Are you sure?
+
+</h4>
+
+<p>
+
+This action cannot be undone.
+
+</p>
+
+<strong id="deleteFileName"></strong>
+
+</div>
+
+<div class="modal-footer">
+
+<button
+class="btn btn-secondary"
+data-bs-dismiss="modal">
+
+Cancel
+
+</button>
+
+<a
+id="deleteBtn"
+href="#"
+class="btn btn-danger">
+
+Delete
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const search=document.getElementById("searchInput");
+
+if(search){
+
+search.addEventListener("keyup",function(){
+
+const value=this.value.toLowerCase();
+
+document.querySelectorAll("#filesTable tbody tr").forEach(row=>{
+
+const name=row.querySelector(".filename").innerText.toLowerCase();
+
+row.style.display=name.includes(value)?"":"none";
+
+});
+
+});
+
+}
+
+const sort=document.getElementById("sortFiles");
+
+if(sort){
+
+sort.addEventListener("change",function(){
+
+const tbody=document.querySelector("#filesTable tbody");
+
+const rows=[...tbody.querySelectorAll("tr")];
+
+rows.sort((a,b)=>{
+
+if(this.value==="name"){
+
+return a.children[1].innerText.localeCompare(b.children[1].innerText);
+
+}
+
+if(this.value==="downloads"){
+
+return Number(b.children[4].innerText)-Number(a.children[4].innerText);
+
+}
+
+if(this.value==="size"){
+
+return parseFloat(b.children[2].innerText)-parseFloat(a.children[2].innerText);
+
+}
+
+return 0;
+
+});
+
+rows.forEach(r=>tbody.appendChild(r));
+
+});
+
+}
+
+function copyLink(id){
+
+const input=document.getElementById(id);
+
+navigator.clipboard.writeText(input.value);
+
+}
+
+function openShareModal(id){
+
+const form=document.getElementById("shareForm");
+
+form.action="/share/"+id;
+
+new bootstrap.Modal(
+
+document.getElementById("shareModal")
+
+).show();
+
+}
+
+function confirmDelete(id,name){
+
+document.getElementById("deleteFileName").innerText=name;
+
+document.getElementById("deleteBtn").href="/delete/"+id;
+
+new bootstrap.Modal(
+
+document.getElementById("deleteModal")
+
+).show();
+
+}
+
+function previewFile(id){
+
+window.location="/preview/"+id;
+
+}
+
+</script>
+
+{% endblock %}
